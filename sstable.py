@@ -40,7 +40,7 @@ class SSTable:
 
         with open(self._values_files, mode="rb") as values_fp:
             values_fp : FileIO
-            values_fp.seek(offset, 1)
+            values_fp.seek(offset, 0)
             return values_fp.read(size).decode(encoding="utf-8")         
     
 
