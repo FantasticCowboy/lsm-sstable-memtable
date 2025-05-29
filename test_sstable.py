@@ -47,7 +47,6 @@ def main():
             for key, value in line_num_to_line.items():
                 assert sstable.get(key) == value, sstable.get(key)
             print(f"total time {time.time() - start_time}")
-            pdb.set_trace()
 
     test_can_create_and_read()
     test_can_index_and_readkjv()

@@ -32,18 +32,6 @@ class SSTable:
         self._index : dict[str, tuple[int,int]] = self._load_index(directory / INDEX_FILE)
         self._values_files = directory / VALUES_FILE
 
-    def get(self, key : str) -> str | None:
-        if not key in self._index:
-            return None
-        
-        offset, size = self._index[key]
-
-        with open(self._values_files, mode="rb") as values_fp:
-            values_fp : FileIO
-            values_fp.seek(offset, 0)
-            return values_fp.read(size).decode(encoding="utf-8")         
-    
-
     def _load_index(self, index : pathlib) -> dict[str, tuple[int,int]]:
         with open(index, mode="rb") as index_fp:
             index_fp : FileIO
@@ -99,3 +87,15 @@ class SSTable:
                 values_fp.write(encoded_value)
 
                 offset += len(encoded_value)
+
+    def get(self, key : str) -> str | None:
+        if not key in self._index:
+            return None
+        
+        offset, size = self._index[key]
+
+        with open(self._values_files, mode="rb") as values_fp:
+            values_fp : FileIO
+            values_fp.seek(offset, 0)
+            return values_fp.read(size).decode(encoding="utf-8")         
+
